@@ -25,6 +25,12 @@ const GlobalStyle = createGlobalStyle`
     }
     
     body {
+        --primary: #096ef7;
+        --primary-variant: rgba(0, 0, 255, 0.2);
+        --secondary: #f5c20c;
+        --secondary-variant: #7cdf92;
+        --on-background: rgba(255, 255, 255, 0.8);
+
         --font-family: "Sans";
 
         --label: 300 0.75rem/1.25rem var(--font-family);
@@ -42,7 +48,7 @@ const GlobalStyle = createGlobalStyle`
         font-feature-settings: "kern" 1;
         font-kerning: normal;
         background: #000;
-        color: rgba(255, 255, 255, 0.8);
+        color: var(--on-background);
     }
 
     p,
@@ -57,7 +63,7 @@ const GlobalStyle = createGlobalStyle`
         margin: 0;
     }
 
-    p {
+    p, a {
         font: var(--body1);
 
         &::before {

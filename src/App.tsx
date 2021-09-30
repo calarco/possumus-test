@@ -1,23 +1,41 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import styled from "styled-components";
 import axios from "axios";
+import {
+    BrowserRouter as Router,
+    Route,
+    Switch,
+    NavLink,
+} from "react-router-dom";
+import styled from "styled-components";
 
 import GlobalStyle from "./globalStyle";
+import Details from "./Details";
 
 const Main = styled.main`
     width: 100vw;
     height: 100vh;
     overflow-y: overlay;
     display: grid;
+    grid-template-columns: 1fr 2fr;
+    justify-content: center;
 `;
 
 const List = styled.section`
-    max-width: 30rem;
     height: 100%;
     overflow-y: overlay;
-    border: 1px solid red;
     display: flex;
     flex-direction: column;
+`;
+
+const Item = styled(NavLink)`
+    padding: 1rem 1.5rem;
+    text-decoration: none;
+    color: var(--primary);
+
+    &:hover {
+        cursor: pointer;
+        background: var(--primary-variant);
+    }
 `;
 
 const Loading = styled.div`
@@ -71,16 +89,7 @@ function App() {
                 response.data.results &&
                     setPeople((people) => [
                         ...people,
-                        ...response.data.results.filter(
-                            (item: { name: string }, index: number) => {
-                                return (
-                                    response.data.results.findIndex(
-                                        (test: { name: string }) =>
-                                            test.name === item.name
-                                    ) === index
-                                );
-                            }
-                        ),
+                        ...response.data.results,
                     ]);
                 response.data.next ? setNext(response.data.next) : setNext("");
                 setLoading(false);
@@ -110,7 +119,7 @@ function App() {
     }, [loading, loadPeople]);
 
     return (
-        <>
+        <Router>
             <GlobalStyle />
             <Main>
                 <List>
@@ -132,16 +141,29 @@ function App() {
                             created: string;
                             edited: string;
                             url: string;
-                        }) => (
-                            <h3 key={item.name}>{item.name}</h3>
-                        )
+                        }) =>
+                            item.name !== "" && (
+                                <Item
+                                    key={item.name}
+                                    to={`/${item.url.split(/\//)[5]}`}
+                                >
+                                    {item.name}
+                                </Item>
+                            )
                     )}
                     {next !== "" && !loading && (
                         <Loading ref={loader}>Loading...</Loading>
                     )}
                 </List>
+                <Route
+                    render={({ location }) => (
+                        <Switch key={location.key} location={location}>
+                            <Route path="/:id" render={() => <Details />} />
+                        </Switch>
+                    )}
+                />
             </Main>
-        </>
+        </Router>
     );
 }
 
