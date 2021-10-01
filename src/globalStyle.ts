@@ -157,11 +157,20 @@ const GlobalStyle = createGlobalStyle`
     }
 
     button {
+        padding: 0.25rem 0.5rem;
+        margin: 0;
+        border-radius: 4px;
+        background: none;
+        border: none;
+        color: var(--primary);
+        font: var(--body1);
+        text-align: left;
         transition: 0.15s ease-in-out;
     }
 
     button:hover {
         cursor: pointer;
+        background: var(--primary-variant);
     }
 `;
 

@@ -14,14 +14,14 @@ import Details from "./Details";
 const Main = styled.main`
     width: 100vw;
     height: 100vh;
-    overflow-y: overlay;
+    overflow-y: hidden;
     display: grid;
-    grid-template-columns: 1fr 2fr;
+    grid-template-columns: 20rem 1fr 1fr;
     justify-content: center;
 `;
 
 const List = styled.section`
-    height: 100%;
+    height: 100vh;
     overflow-y: overlay;
     display: flex;
     flex-direction: column;
