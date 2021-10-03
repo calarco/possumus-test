@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import axios from "axios";
-import {
-    BrowserRouter as Router,
-    Route,
-    Switch,
-    NavLink,
-} from "react-router-dom";
+import React, { useState } from "react";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 
-import GlobalStyle from "./globalStyle";
-import Details from "./Details";
+import GlobalStyle from "globalStyle";
+import People from "panels/People";
+import Person from "panels/Person";
+import Planet from "panels/Planet";
+import Film from "panels/Film";
+import Specie from "panels/Specie";
+import Vehicle from "panels/Vehicle";
+import Starship from "panels/Starship";
 
 const Main = styled.main`
     width: 100vw;
@@ -20,148 +20,156 @@ const Main = styled.main`
     justify-content: center;
 `;
 
-const List = styled.section`
-    height: 100vh;
-    overflow-y: overlay;
-    display: flex;
-    flex-direction: column;
-`;
-
-const Item = styled(NavLink)`
-    padding: 1rem 1.5rem;
-    text-decoration: none;
-    color: var(--primary);
-
-    &:hover {
-        cursor: pointer;
-        background: var(--primary-variant);
-    }
-`;
-
-const Loading = styled.div`
-    @keyframes loading {
-        0% {
-            opacity: 0.5;
-        }
-        50% {
-            opacity: 1;
-        }
-        100% {
-            opacity: 0.5;
-        }
-    }
-
-    padding: 2rem 0;
-    text-align: center;
-    animation-name: loading;
-    animation-duration: 2s;
-    animation-iteration-count: infinite;
-`;
-
 function App() {
-    const loader = useRef<HTMLDivElement | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [people, setPeople] = useState([
-        {
-            name: "",
-            height: "",
-            mass: "",
-            hair_color: "",
-            skin_color: "",
-            eye_color: "",
-            birth_year: "",
-            gender: "",
-            homeworld: "",
-            films: [""],
-            species: [""],
-            vehicles: [""],
-            starships: [""],
-            created: "",
-            edited: "",
-            url: "",
-        },
-    ]);
-    const [next, setNext] = useState("https://swapi.dev/api/people/");
-
-    const loadPeople = useCallback(() => {
-        next !== "" &&
-            axios.get(next).then((response) => {
-                response.data.results &&
-                    setPeople((people) => [
-                        ...people,
-                        ...response.data.results,
-                    ]);
-                response.data.next ? setNext(response.data.next) : setNext("");
-                setLoading(false);
-            });
-    }, [next, setPeople]);
-
-    const handleObserver = useCallback((entries) => {
-        if (entries[0].isIntersecting) {
-            setLoading(true);
-        }
-    }, []);
-
-    useEffect(() => {
-        const option = {
-            root: null,
-            rootMargin: "20px",
-            threshold: 0,
-        };
-        loader.current &&
-            new IntersectionObserver(handleObserver, option).observe(
-                loader.current
-            );
-    }, [loader.current, handleObserver]);
-
-    useEffect(() => {
-        loading && loadPeople();
-    }, [loading, loadPeople]);
+    const [person, setPerson] = useState({
+        name: "",
+        height: "",
+        mass: "",
+        hair_color: "",
+        skin_color: "",
+        eye_color: "",
+        birth_year: "",
+        gender: "",
+        homeworld: "",
+        films: [""],
+        species: [""],
+        vehicles: [""],
+        starships: [""],
+        created: "",
+        edited: "",
+        url: "",
+    });
+    const [planet, setPlanet] = useState({
+        name: "",
+        rotation_period: "",
+        orbital_period: "",
+        diameter: "",
+        climate: "",
+        gravity: "",
+        terrain: "",
+        surface_water: "",
+        population: "",
+        residents: [""],
+        films: [""],
+        created: "",
+        edited: "",
+        url: "",
+    });
+    const [film, setFilm] = useState({
+        title: "",
+        episode_id: 0,
+        opening_crawl: "",
+        director: "",
+        producer: "",
+        release_date: "",
+        characters: [""],
+        planets: [""],
+        species: [""],
+        vehicles: [""],
+        starships: [""],
+        created: "",
+        edited: "",
+        url: "",
+    });
+    const [specie, setSpecie] = useState({
+        name: "",
+        classification: "",
+        designation: "",
+        average_height: "",
+        skin_colors: "",
+        hair_colors: "",
+        eye_colors: "",
+        average_lifespan: "",
+        homeworld: "",
+        language: "",
+        people: [""],
+        films: [""],
+        created: "",
+        edited: "",
+        url: "",
+    });
+    const [vehicle, setVehicle] = useState({
+        name: "",
+        model: "",
+        manufacturer: "",
+        cost_in_credits: "",
+        length: "",
+        max_atmosphering_speed: "",
+        crew: "",
+        passengers: "",
+        cargo_capacity: "",
+        consumables: "",
+        vehicle_class: "",
+        pilots: [""],
+        films: [""],
+        created: "",
+        edited: "",
+        url: "",
+    });
+    const [starship, setStarship] = useState({
+        name: "",
+        model: "",
+        manufacturer: "",
+        cost_in_credits: "",
+        length: "",
+        max_atmosphering_speed: "",
+        crew: "",
+        passengers: "",
+        cargo_capacity: "",
+        consumables: "",
+        hyperdrive_rating: "",
+        MGLT: "",
+        starship_class: "",
+        pilots: [""],
+        films: [""],
+        created: "",
+        edited: "",
+        url: "",
+    });
 
     return (
         <Router>
             <GlobalStyle />
             <Main>
-                <List>
-                    {people.map(
-                        (item: {
-                            name: string;
-                            height: string;
-                            mass: string;
-                            hair_color: string;
-                            skin_color: string;
-                            eye_color: string;
-                            birth_year: string;
-                            gender: string;
-                            homeworld: string;
-                            films: string[];
-                            species: string[];
-                            vehicles: string[];
-                            starships: string[];
-                            created: string;
-                            edited: string;
-                            url: string;
-                        }) =>
-                            item.name !== "" && (
-                                <Item
-                                    key={item.name}
-                                    to={`/${item.url.split(/\//)[5]}`}
-                                >
-                                    {item.name}
-                                </Item>
-                            )
-                    )}
-                    {next !== "" && !loading && (
-                        <Loading ref={loader}>Loading...</Loading>
-                    )}
-                </List>
+                <People setPerson={setPerson} />
                 <Route
                     render={({ location }) => (
                         <Switch key={location.key} location={location}>
-                            <Route path="/:id" render={() => <Details />} />
+                            <Route
+                                path="/:id"
+                                render={() => (
+                                    <Person
+                                        id={location.pathname.slice(1)}
+                                        data={person}
+                                        setPerson={setPerson}
+                                        setPlanet={setPlanet}
+                                        setFilm={setFilm}
+                                        setSpecie={setSpecie}
+                                        setVehicle={setVehicle}
+                                        setStarship={setStarship}
+                                    />
+                                )}
+                            />
                         </Switch>
                     )}
                 />
+                {planet.name !== "" ? (
+                    <Planet data={planet} setFilm={setFilm} />
+                ) : film.title !== "" ? (
+                    <Film
+                        data={film}
+                        setPlanet={setPlanet}
+                        setSpecie={setSpecie}
+                        setVehicle={setVehicle}
+                        setStarship={setStarship}
+                    />
+                ) : specie.name !== "" ? (
+                    <Specie data={specie} setFilm={setFilm} />
+                ) : vehicle.name !== "" ? (
+                    <Vehicle data={vehicle} setFilm={setFilm} />
+                ) : starship.name !== "" ? (
+                    <Starship data={starship} setFilm={setFilm} />
+                ) : undefined}
             </Main>
         </Router>
     );
