@@ -76,16 +76,32 @@ function Person({
             <Label label="gender">
                 <p>{data.gender}</p>
             </Label>
-            <List list={[data.homeworld]} setActive={setPlanet} />
+            <List
+                label="homeworld"
+                list={[data.homeworld]}
+                setActive={setPlanet}
+            />
             {data.species[0] && (
-                <List list={data.species} setActive={setSpecie} />
+                <List
+                    label="species"
+                    list={data.species}
+                    setActive={setSpecie}
+                />
             )}
-            <List list={data.films} setActive={setFilm} />
+            <List label="films" list={data.films} setActive={setFilm} />
             {data.vehicles[0] && (
-                <List list={data.vehicles} setActive={setVehicle} />
+                <List
+                    label="vehicles"
+                    list={data.vehicles}
+                    setActive={setVehicle}
+                />
             )}
             {data.starships[0] && (
-                <List list={data.starships} setActive={setStarship} />
+                <List
+                    label="starships"
+                    list={data.starships}
+                    setActive={setStarship}
+                />
             )}
         </Panel>
     );

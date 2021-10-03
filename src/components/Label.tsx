@@ -19,8 +19,7 @@ const Container = styled.div<Props>`
         text-transform: uppercase;
     }
 
-    p,
-    li {
+    p {
         color: var(--on-background);
         text-transform: capitalize;
         font: var(--body1);

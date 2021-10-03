@@ -21,10 +21,11 @@ type ComponentProps = {
         edited: string;
         url: string;
     };
+    setPerson: (current: any) => void;
     setFilm: (current: any) => void;
 };
 
-function Planet({ data, setFilm }: ComponentProps) {
+function Planet({ data, setPerson, setFilm }: ComponentProps) {
     return (
         <Panel>
             <h3>{data.name}</h3>
@@ -52,19 +53,14 @@ function Planet({ data, setFilm }: ComponentProps) {
             <Label label="population">
                 <p>{data.population}</p>
             </Label>
-            <Label label="residents" length={data.residents.length}>
-                <ul>
-                    {data.residents.map(
-                        (resident, index) =>
-                            index !== 0 && (
-                                <li key={index}>
-                                    <button type="button">{resident}</button>
-                                </li>
-                            )
-                    )}
-                </ul>
-            </Label>
-            {data.films[1] && <List list={data.films} setActive={setFilm} />}
+            <List
+                label="residents"
+                list={data.residents}
+                setActive={setPerson}
+            />
+            {data.films[1] && (
+                <List label="films" list={data.films} setActive={setFilm} />
+            )}
         </Panel>
     );
 }

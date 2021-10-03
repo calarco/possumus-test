@@ -21,6 +21,7 @@ type ComponentProps = {
         edited: string;
         url: string;
     };
+    setPerson: (current: any) => void;
     setPlanet: (current: any) => void;
     setSpecie: (current: any) => void;
     setVehicle: (current: any) => void;
@@ -29,6 +30,7 @@ type ComponentProps = {
 
 function Film({
     data,
+    setPerson,
     setPlanet,
     setSpecie,
     setVehicle,
@@ -52,29 +54,38 @@ function Film({
             <Label label="release_date">
                 <p>{data.release_date}</p>
             </Label>
-            <Label label="characters" length={data.characters.length}>
-                <ul>
-                    {data.characters.map(
-                        (character, index) =>
-                            index !== 0 && (
-                                <li key={index}>
-                                    <button type="button">{character}</button>
-                                </li>
-                            )
-                    )}
-                </ul>
-            </Label>
+            <List
+                label="characters"
+                list={data.characters}
+                setActive={setPerson}
+            />
             {data.planets[0] && (
-                <List list={data.planets} setActive={setPlanet} />
+                <List
+                    label="planets"
+                    list={data.planets}
+                    setActive={setPlanet}
+                />
             )}
             {data.species[0] && (
-                <List list={data.species} setActive={setSpecie} />
+                <List
+                    label="species"
+                    list={data.species}
+                    setActive={setSpecie}
+                />
             )}
             {data.vehicles[0] && (
-                <List list={data.vehicles} setActive={setVehicle} />
+                <List
+                    label="vehicles"
+                    list={data.vehicles}
+                    setActive={setVehicle}
+                />
             )}
             {data.starships[0] && (
-                <List list={data.starships} setActive={setStarship} />
+                <List
+                    label="starships"
+                    list={data.starships}
+                    setActive={setStarship}
+                />
             )}
         </Panel>
     );

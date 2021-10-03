@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import styled from "styled-components";
 
@@ -21,6 +21,7 @@ const Main = styled.main`
 `;
 
 function App() {
+    const [active, setActive] = useState("");
     const [person, setPerson] = useState({
         name: "",
         height: "",
@@ -127,6 +128,26 @@ function App() {
         url: "",
     });
 
+    useEffect(() => {
+        planet.name !== "" && setActive("planet");
+    }, [planet]);
+
+    useEffect(() => {
+        film.title !== "" && setActive("film");
+    }, [film]);
+
+    useEffect(() => {
+        specie.name !== "" && setActive("specie");
+    }, [specie]);
+
+    useEffect(() => {
+        vehicle.name !== "" && setActive("vehicle");
+    }, [vehicle]);
+
+    useEffect(() => {
+        starship.name !== "" && setActive("starship");
+    }, [starship]);
+
     return (
         <Router>
             <GlobalStyle />
@@ -153,22 +174,39 @@ function App() {
                         </Switch>
                     )}
                 />
-                {planet.name !== "" ? (
-                    <Planet data={planet} setFilm={setFilm} />
-                ) : film.title !== "" ? (
+                {active === "planet" ? (
+                    <Planet
+                        data={planet}
+                        setPerson={setPerson}
+                        setFilm={setFilm}
+                    />
+                ) : active === "film" ? (
                     <Film
                         data={film}
+                        setPerson={setPerson}
                         setPlanet={setPlanet}
                         setSpecie={setSpecie}
                         setVehicle={setVehicle}
                         setStarship={setStarship}
                     />
-                ) : specie.name !== "" ? (
-                    <Specie data={specie} setFilm={setFilm} />
-                ) : vehicle.name !== "" ? (
-                    <Vehicle data={vehicle} setFilm={setFilm} />
-                ) : starship.name !== "" ? (
-                    <Starship data={starship} setFilm={setFilm} />
+                ) : active === "specie" ? (
+                    <Specie
+                        data={specie}
+                        setPerson={setPerson}
+                        setFilm={setFilm}
+                    />
+                ) : active === "vehicle" ? (
+                    <Vehicle
+                        data={vehicle}
+                        setPerson={setPerson}
+                        setFilm={setFilm}
+                    />
+                ) : active === "starship" ? (
+                    <Starship
+                        data={starship}
+                        setPerson={setPerson}
+                        setFilm={setFilm}
+                    />
                 ) : undefined}
             </Main>
         </Router>

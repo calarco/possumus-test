@@ -27,8 +27,8 @@ const GlobalStyle = createGlobalStyle`
     body {
         --primary: #096ef7;
         --primary-variant: rgba(0, 0, 255, 0.2);
-        --secondary: #f5c20c;
-        --secondary-variant: #7cdf92;
+        --secondary: #f2ae0a;
+        --secondary-variant: #e19343;
         --on-background: rgba(255, 255, 255, 0.8);
 
         --font-family: "Sans";

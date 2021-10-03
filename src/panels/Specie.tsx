@@ -22,10 +22,11 @@ type ComponentProps = {
         edited: string;
         url: string;
     };
+    setPerson: (current: any) => void;
     setFilm: (current: any) => void;
 };
 
-function Specie({ data, setFilm }: ComponentProps) {
+function Specie({ data, setPerson, setFilm }: ComponentProps) {
     return (
         <Panel>
             <h3>{data.name}</h3>
@@ -56,19 +57,10 @@ function Specie({ data, setFilm }: ComponentProps) {
             <Label label="language">
                 <p>{data.language}</p>
             </Label>
-            <Label label="people">
-                <ul>
-                    {data.people.map(
-                        (people, index) =>
-                            index !== 0 && (
-                                <li key={index}>
-                                    <button type="button">{people}</button>
-                                </li>
-                            )
-                    )}
-                </ul>
-            </Label>
-            {data.films[1] && <List list={data.films} setActive={setFilm} />}
+            <List label="people" list={data.people} setActive={setPerson} />
+            {data.films[1] && (
+                <List label="films" list={data.films} setActive={setFilm} />
+            )}
         </Panel>
     );
 }

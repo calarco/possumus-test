@@ -25,10 +25,11 @@ type ComponentProps = {
         edited: string;
         url: string;
     };
+    setPerson: (current: any) => void;
     setFilm: (current: any) => void;
 };
 
-function Starship({ data, setFilm }: ComponentProps) {
+function Starship({ data, setPerson, setFilm }: ComponentProps) {
     return (
         <Panel>
             <h3>{data.name}</h3>
@@ -68,19 +69,10 @@ function Starship({ data, setFilm }: ComponentProps) {
             <Label label="starship_class">
                 <p>{data.starship_class}</p>
             </Label>
-            <Label label="pilots">
-                <ul>
-                    {data.pilots.map(
-                        (pilot, index) =>
-                            index !== 0 && (
-                                <li key={index}>
-                                    <button type="button">{pilot}</button>
-                                </li>
-                            )
-                    )}
-                </ul>
-            </Label>
-            {data.films[1] && <List list={data.films} setActive={setFilm} />}
+            <List label="pilots" list={data.pilots} setActive={setPerson} />
+            {data.films[1] && (
+                <List label="films" list={data.films} setActive={setFilm} />
+            )}
         </Panel>
     );
 }
