@@ -9,6 +9,23 @@ export const Device = {
 const GlobalStyle = createGlobalStyle`
     ${normalize}
 
+    ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+        background: #111;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        background: var(--secondary);
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background: #b9100d;
+    }
+
     *,
     *::before,
     *::after {
@@ -25,20 +42,22 @@ const GlobalStyle = createGlobalStyle`
     }
     
     body {
-        --primary: #096ef7;
-        --primary-variant: rgba(0, 0, 255, 0.2);
-        --secondary: #f2ae0a;
-        --secondary-variant: #e19343;
+        --primary: rgba(29, 142, 182, 1);
+        --primary-variant: rgba(29, 142, 182, 0.2);
+        --secondary: rgba(91, 174, 84, 1);
+        --secondary-variant: rgba(91, 174, 84, 0.1);
         --on-background: rgba(255, 255, 255, 0.8);
+        --on-background-variant: rgba(255, 255, 255, 0.6);
 
-        --font-family: "Sans";
+        --font-family: "ShareTechMono-Regular";
+        --font-family-alt: "SpaceMono-Bold";
 
-        --label: 300 0.75rem/1.25rem var(--font-family);
+        --label: 300 0.75rem/1.25rem var(--font-family-alt);
         --body1: 300 0.9rem/1.25rem var(--font-family);
         --body2: 500 0.9rem/1.5rem var(--font-family);
         --subhead1: 300 1rem/1.5rem var(--font-family);
         --subhead2: 500 1rem/1.75rem var(--font-family);
-        --title: 500 1.25rem/1.75rem var(--font-family);
+        --title: 500 1.25rem/1.75rem var(--font-family-alt);
         --headline: 300 1.5rem/2rem var(--font-family);
         --display-1: 300 2rem/2.5rem var(--font-family);
 
@@ -163,14 +182,16 @@ const GlobalStyle = createGlobalStyle`
         background: none;
         border: none;
         color: var(--primary);
+        text-shadow: 0 0 4px var(--primary);
         font: var(--body1);
         text-align: left;
-        transition: 0.15s ease-in-out;
+        transition: 0.15s ease-in;
     }
 
     button:hover {
         cursor: pointer;
         background: var(--primary-variant);
+        transition: 0.15s ease-out;
     }
 `;
 

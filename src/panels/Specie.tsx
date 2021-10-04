@@ -1,4 +1,6 @@
-import React from "react";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 import Panel from "components/Panel";
 import Label from "components/Label";
@@ -23,13 +25,30 @@ type ComponentProps = {
         url: string;
     };
     setPerson: (current: any) => void;
+    setPlanet: (current: any) => void;
     setFilm: (current: any) => void;
+    setSpecie: (current: any) => void;
 };
 
-function Specie({ data, setPerson, setFilm }: ComponentProps) {
+function Specie({
+    data,
+    setPerson,
+    setPlanet,
+    setFilm,
+    setSpecie,
+}: ComponentProps) {
+    const { id } = useParams<{ id: string }>();
+
+    useEffect(() => {
+        data.url.split(/\//)[5] !== id &&
+            axios
+                .get(`https://swapi.dev/api/species/${id}/`)
+                .then((response) => {
+                    response.data && setSpecie(response.data);
+                });
+    }, [data.url, id, setSpecie]);
     return (
-        <Panel>
-            <h3>{data.name}</h3>
+        <Panel title={data.name}>
             <Label label="classification">
                 <p>{data.classification}</p>
             </Label>
@@ -51,9 +70,11 @@ function Specie({ data, setPerson, setFilm }: ComponentProps) {
             <Label label="average_lifespan">
                 <p>{data.average_lifespan}</p>
             </Label>
-            <Label label="homeworld">
-                <p>{data.homeworld}</p>
-            </Label>
+            <List
+                label="homeworld"
+                list={[data.homeworld]}
+                setActive={setPlanet}
+            />
             <Label label="language">
                 <p>{data.language}</p>
             </Label>

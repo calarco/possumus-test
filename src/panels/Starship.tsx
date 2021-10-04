@@ -1,4 +1,6 @@
-import React from "react";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 import Panel from "components/Panel";
 import Label from "components/Label";
@@ -27,12 +29,23 @@ type ComponentProps = {
     };
     setPerson: (current: any) => void;
     setFilm: (current: any) => void;
+    setStarship: (current: any) => void;
 };
 
-function Starship({ data, setPerson, setFilm }: ComponentProps) {
+function Starship({ data, setPerson, setFilm, setStarship }: ComponentProps) {
+    const { id } = useParams<{ id: string }>();
+
+    useEffect(() => {
+        data.url.split(/\//)[5] !== id &&
+            axios
+                .get(`https://swapi.dev/api/starships/${id}/`)
+                .then((response) => {
+                    response.data && setStarship(response.data);
+                });
+    }, [data.url, id, setStarship]);
+
     return (
-        <Panel>
-            <h3>{data.name}</h3>
+        <Panel title={data.name}>
             <Label label="model">
                 <p>{data.model}</p>
             </Label>

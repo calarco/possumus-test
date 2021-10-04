@@ -24,7 +24,22 @@
       work correctly both with client-side routing and a non-root public URL.
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
-    <title>React App</title>
+    <base href="/">
+    <title>Star Wars</title><style>
+        @font-face {
+            font-family: "ShareTechMono-Regular";
+            src: url("./ShareTechMono-Regular.ttf") format("truetype");
+            font-weight: 100 800;
+            font-display: swap;
+            font-style: normal;
+        }
+    
+        @font-face {
+            font-family: "SpaceMono-Bold";
+            src: url("./SpaceMono-Bold.ttf") format("truetype");
+            font-weight: 700;
+        }
+    </style>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
@@ -14,14 +14,22 @@ const Item = styled(NavLink)`
     padding: 1rem 1.5rem;
     text-decoration: none;
     color: var(--primary);
+    text-shadow: 0 0 4px var(--primary);
+    transition: 0.15s ease-in;
 
     &:hover {
         cursor: pointer;
         background: var(--primary-variant);
+        transition: 0.15s ease-out;
+    }
+
+    &.active {
+        color: var(--secondary);
+        pointer-events: none;
     }
 `;
 
-const Loading = styled.div`
+const Loading = styled.p`
     @keyframes loading {
         0% {
             opacity: 0.5;
@@ -130,7 +138,9 @@ function People({ setPerson }: ComponentProps) {
                     item.name !== "" && (
                         <Item
                             key={item.name}
-                            to={`/${item.url.split(/\//)[5]}`}
+                            to={`/${item.url.split(/\//)[4]}/${
+                                item.url.split(/\//)[5]
+                            }`}
                             onClick={() => setPerson(item)}
                         >
                             {item.name}

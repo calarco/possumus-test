@@ -1,3 +1,4 @@
+import React from "react";
 import styled, { css } from "styled-components";
 
 type Props = {
@@ -5,8 +6,19 @@ type Props = {
 };
 
 const Container = styled.div<Props>`
-    padding: 1rem 1.5rem;
+    position: relative;
+    padding: 0.25rem 1rem;
     display: grid;
+    gap: 0.25rem;
+
+    &::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        border-left: 1px solid var(--secondary);
+    }
 
     ${(props) =>
         props.length &&
@@ -15,13 +27,14 @@ const Container = styled.div<Props>`
         `};
 
     label {
-        color: var(--secondary);
         text-transform: uppercase;
+        font-weight: 600;
+        color: var(--on-background-variant);
     }
 
     p {
+        padding: 0.25rem 0.5rem;
         color: var(--on-background);
-        text-transform: capitalize;
         font: var(--body1);
     }
 

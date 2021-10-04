@@ -1,4 +1,6 @@
-import React from "react";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import axios from "axios";
 
 import Panel from "components/Panel";
 import Label from "components/Label";
@@ -24,6 +26,7 @@ type ComponentProps = {
     setPerson: (current: any) => void;
     setPlanet: (current: any) => void;
     setSpecie: (current: any) => void;
+    setFilm: (current: any) => void;
     setVehicle: (current: any) => void;
     setStarship: (current: any) => void;
 };
@@ -33,12 +36,21 @@ function Film({
     setPerson,
     setPlanet,
     setSpecie,
+    setFilm,
     setVehicle,
     setStarship,
 }: ComponentProps) {
+    const { id } = useParams<{ id: string }>();
+
+    useEffect(() => {
+        data.url.split(/\//)[5] !== id &&
+            axios.get(`https://swapi.dev/api/films/${id}/`).then((response) => {
+                response.data && setFilm(response.data);
+            });
+    }, [data.url, id, setFilm]);
+
     return (
-        <Panel>
-            <h3>{data.title}</h3>
+        <Panel title={data.title}>
             <Label label="episode_id">
                 <p>{data.episode_id}</p>
             </Label>
