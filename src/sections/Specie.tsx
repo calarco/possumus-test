@@ -1,7 +1,3 @@
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import useAxios from "components/useAxios";
-
 import Article from "components/Article";
 import Label from "components/Label";
 import List from "components/List";
@@ -24,29 +20,11 @@ type ComponentProps = {
         edited: string;
         url: string;
     };
-    setPerson: (current: any) => void;
-    setPlanet: (current: any) => void;
-    setFilm: (current: any) => void;
-    setSpecie: (current: any) => void;
+    setCurrent: (current: any) => void;
+    loading: boolean;
 };
 
-function Specie({
-    data,
-    setPerson,
-    setPlanet,
-    setFilm,
-    setSpecie,
-}: ComponentProps) {
-    const { id } = useParams<{ id: string }>();
-    const { response, loading } = useAxios({
-        url: `/species/${id}/`,
-        data: data,
-    });
-
-    useEffect(() => {
-        setSpecie(response);
-    }, [response, setSpecie]);
-
+function Specie({ data, setCurrent, loading }: ComponentProps) {
     return (
         <Article title={loading ? "" : data.name}>
             <Label label="CLASSIFICATION" loading={loading}>
@@ -74,7 +52,7 @@ function Specie({
                 <List
                     label="HOMEWORLD"
                     list={loading ? [""] : [data.homeworld]}
-                    setActive={setPlanet}
+                    setCurrent={setCurrent}
                 />
             )}
             <Label label="LANGUAGE" loading={loading}>
@@ -84,14 +62,14 @@ function Specie({
                 <List
                     label="PEOPLE"
                     list={loading ? [""] : data.people}
-                    setActive={setPerson}
+                    setCurrent={setCurrent}
                 />
             )}
             {data.films[1] && (
                 <List
                     label="FILMS"
                     list={loading ? [""] : data.films}
-                    setActive={setFilm}
+                    setCurrent={setCurrent}
                 />
             )}
         </Article>

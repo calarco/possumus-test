@@ -38,10 +38,10 @@ const Item = transition.li.attrs({
 type ComponentProps = {
     label: string;
     list: string[];
-    setActive: (current: any) => void;
+    setCurrent: (current: any) => void;
 };
 
-function List({ label, list, setActive }: ComponentProps) {
+function List({ label, list, setCurrent }: ComponentProps) {
     const [loading, setLoading] = useState(true);
     const [data, setData] = useState([
         {
@@ -75,7 +75,7 @@ function List({ label, list, setActive }: ComponentProps) {
                                         to={`/${item.url?.split(/\//)[4]}/${
                                             item.url?.split(/\//)[5]
                                         }`}
-                                        onClick={() => setActive(item)}
+                                        onClick={() => setCurrent(item)}
                                     >
                                         {item.name || item.title}
                                     </Link>

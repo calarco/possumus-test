@@ -90,10 +90,10 @@ const Loading = styled.p`
 `;
 
 type ComponentProps = {
-    setPerson: (current: any) => void;
+    setCurrent: (current: any) => void;
 };
 
-function People({ setPerson }: ComponentProps) {
+function People({ setCurrent }: ComponentProps) {
     const loader = useRef<HTMLDivElement | null>(null);
     const [loading, setLoading] = useState(true);
     const [people, setPeople] = useState([
@@ -182,7 +182,7 @@ function People({ setPerson }: ComponentProps) {
                                     to={`/${item.url.split(/\//)[4]}/${
                                         item.url.split(/\//)[5]
                                     }`}
-                                    onClick={() => setPerson(item)}
+                                    onClick={() => setCurrent(item)}
                                 >
                                     {item.name}
                                 </Link>

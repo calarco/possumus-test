@@ -1,7 +1,3 @@
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import useAxios from "components/useAxios";
-
 import Article from "components/Article";
 import Label from "components/Label";
 import List from "components/List";
@@ -23,33 +19,11 @@ type ComponentProps = {
         edited: string;
         url: string;
     };
-    setPerson: (current: any) => void;
-    setPlanet: (current: any) => void;
-    setSpecie: (current: any) => void;
-    setFilm: (current: any) => void;
-    setVehicle: (current: any) => void;
-    setStarship: (current: any) => void;
+    setCurrent: (current: any) => void;
+    loading: boolean;
 };
 
-function Film({
-    data,
-    setPerson,
-    setPlanet,
-    setSpecie,
-    setFilm,
-    setVehicle,
-    setStarship,
-}: ComponentProps) {
-    const { id } = useParams<{ id: string }>();
-    const { response, loading } = useAxios({
-        url: `/films/${id}/`,
-        data: data,
-    });
-
-    useEffect(() => {
-        setFilm(response);
-    }, [response, setFilm]);
-
+function Film({ data, setCurrent, loading }: ComponentProps) {
     return (
         <Article
             title={loading ? "" : data.title}
@@ -71,35 +45,35 @@ function Film({
                 <List
                     label="CHARACTERS"
                     list={loading ? [""] : data.characters}
-                    setActive={setPerson}
+                    setCurrent={setCurrent}
                 />
             )}
             {data.planets[0] && (
                 <List
                     label="PLANETS"
                     list={loading ? [""] : data.planets}
-                    setActive={setPlanet}
+                    setCurrent={setCurrent}
                 />
             )}
             {data.species[0] && (
                 <List
                     label="SPECIES"
                     list={loading ? [""] : data.species}
-                    setActive={setSpecie}
+                    setCurrent={setCurrent}
                 />
             )}
             {data.vehicles[0] && (
                 <List
                     label="VEHICLES"
                     list={loading ? [""] : data.vehicles}
-                    setActive={setVehicle}
+                    setCurrent={setCurrent}
                 />
             )}
             {data.starships[0] && (
                 <List
                     label="STARSHIPS"
                     list={loading ? [""] : data.starships}
-                    setActive={setStarship}
+                    setCurrent={setCurrent}
                 />
             )}
         </Article>

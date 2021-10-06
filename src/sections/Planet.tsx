@@ -1,7 +1,3 @@
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import useAxios from "components/useAxios";
-
 import Article from "components/Article";
 import Label from "components/Label";
 import List from "components/List";
@@ -23,22 +19,11 @@ type ComponentProps = {
         edited: string;
         url: string;
     };
-    setPerson: (current: any) => void;
-    setFilm: (current: any) => void;
-    setPlanet: (current: any) => void;
+    setCurrent: (current: any) => void;
+    loading: boolean;
 };
 
-function Planet({ data, setPerson, setFilm, setPlanet }: ComponentProps) {
-    const { id } = useParams<{ id: string }>();
-    const { response, loading } = useAxios({
-        url: `/planets/${id}/`,
-        data: data,
-    });
-
-    useEffect(() => {
-        setPlanet(response);
-    }, [response, setPlanet]);
-
+function Planet({ data, setCurrent, loading }: ComponentProps) {
     return (
         <Article title={loading ? "" : data.name}>
             <Label label="ROTATION PERIOD" loading={loading}>
@@ -69,14 +54,14 @@ function Planet({ data, setPerson, setFilm, setPlanet }: ComponentProps) {
                 <List
                     label="RESIDENTS"
                     list={loading ? [""] : data.residents}
-                    setActive={setPerson}
+                    setCurrent={setCurrent}
                 />
             )}
             {data.films[1] && (
                 <List
                     label="FILMS"
                     list={loading ? [""] : data.films}
-                    setActive={setFilm}
+                    setCurrent={setCurrent}
                 />
             )}
         </Article>

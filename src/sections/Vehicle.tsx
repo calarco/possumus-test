@@ -1,7 +1,3 @@
-import { useEffect } from "react";
-import { useParams } from "react-router-dom";
-import useAxios from "components/useAxios";
-
 import Article from "components/Article";
 import Label from "components/Label";
 import List from "components/List";
@@ -25,22 +21,11 @@ type ComponentProps = {
         edited: string;
         url: string;
     };
-    setPerson: (current: any) => void;
-    setFilm: (current: any) => void;
-    setVehicle: (current: any) => void;
+    setCurrent: (current: any) => void;
+    loading: boolean;
 };
 
-function Vehicle({ data, setPerson, setFilm, setVehicle }: ComponentProps) {
-    const { id } = useParams<{ id: string }>();
-    const { response, loading } = useAxios({
-        url: `/vehicles/${id}/`,
-        data: data,
-    });
-
-    useEffect(() => {
-        setVehicle(response);
-    }, [response, setVehicle]);
-
+function Vehicle({ data, setCurrent, loading }: ComponentProps) {
     return (
         <Article title={loading ? "" : data.name}>
             <Label label="MODEL" loading={loading}>
@@ -77,14 +62,14 @@ function Vehicle({ data, setPerson, setFilm, setVehicle }: ComponentProps) {
                 <List
                     label="PILOTS"
                     list={loading ? [""] : data.pilots}
-                    setActive={setPerson}
+                    setCurrent={setCurrent}
                 />
             )}
             {data.films[1] && (
                 <List
                     label="FILMS"
                     list={loading ? [""] : data.films}
-                    setActive={setFilm}
+                    setCurrent={setCurrent}
                 />
             )}
         </Article>

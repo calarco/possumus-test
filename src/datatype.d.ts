@@ -1,8 +1,3 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
-
-axios.defaults.baseURL = "https://swapi.dev/api";
-
 type Data = {
     name?: string;
     height?: string;
@@ -67,37 +62,3 @@ type Data = {
     edited: string;
     url: string;
 };
-
-type HookProps = {
-    url: string;
-    omit: boolean;
-};
-
-const useAxios = ({ url, omit }: HookProps) => {
-    const [response, setResponse] = useState<Data>({
-        created: "",
-        edited: "",
-        url: "",
-    });
-    const [error, setError] = useState("");
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        omit ?
-            setLoading(false) :
-            axios.get(url)
-                .then((response) => {
-                    setResponse(response.data);
-                })
-                .catch((error) => {
-                    setError(error);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-    }, [url, omit]);
-
-    return { response, error, loading };
-};
-
-export default useAxios;
