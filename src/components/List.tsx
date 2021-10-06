@@ -1,8 +1,39 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import transition from "styled-transition-group";
+import { TransitionGroup } from "react-transition-group";
 
 import Label from "components/Label";
+
+const Item = transition.li.attrs({
+    unmountOnExit: true,
+    timeout: {
+        enter: 300,
+        exit: 200,
+    },
+})`
+    &:enter {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    &:enter-active {
+        opacity: 1;
+        transform: initial;
+        transition: 0.3s ease-out;
+        
+    }
+
+    &:exit {
+        opacity: 1;
+    }
+
+    &:exit-active {
+        opacity: 0;
+        transition: 0.2s ease-in;
+    }
+`;
 
 type ComponentProps = {
     label: string;
@@ -21,7 +52,7 @@ function List({ label, list, setActive }: ComponentProps) {
     ]);
 
     useEffect(() => {
-        !data[1] &&
+        list[0] !== "" &&
             list.map((url: string, index: number) =>
                 axios.get(url).then((response) => {
                     response.data &&
@@ -29,34 +60,33 @@ function List({ label, list, setActive }: ComponentProps) {
                     index === list.length - 1 && setLoading(false);
                 })
             );
-    }, [list, data]);
+        // eslint-disable-next-line
+    }, [JSON.stringify(list)]);
 
     return (
-        <Label label={label} length={list.length}>
+        <Label label={label} length={list.length} loading={loading}>
             <ul>
-                {data.map(
-                    (item, index) =>
-                        index !== 0 && (
-                            <li key={index}>
-                                <Link
-                                    to={`/${item.url?.split(/\//)[4]}/${
-                                        item.url?.split(/\//)[5]
-                                    }`}
-                                >
-                                    <button
-                                        type="button"
+                <TransitionGroup component={null}>
+                    {data.map(
+                        (item, index) =>
+                            index !== 0 && (
+                                <Item key={index}>
+                                    <Link
+                                        to={`/${item.url?.split(/\//)[4]}/${
+                                            item.url?.split(/\//)[5]
+                                        }`}
                                         onClick={() => setActive(item)}
                                     >
                                         {item.name || item.title}
-                                    </button>
-                                </Link>
-                            </li>
-                        )
-                )}
+                                    </Link>
+                                </Item>
+                            )
+                    )}
+                </TransitionGroup>
                 {loading && (
-                    <li>
-                        <p>loading</p>
-                    </li>
+                    <Item key={0}>
+                        <button type="button">_</button>
+                    </Item>
                 )}
             </ul>
         </Label>

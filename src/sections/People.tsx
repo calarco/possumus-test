@@ -2,25 +2,65 @@ import { useState, useEffect, useCallback, useRef } from "react";
 import axios from "axios";
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
+import { TransitionGroup } from "react-transition-group";
+import transition from "styled-transition-group";
 
 const Container = styled.section`
     height: 100vh;
-    overflow-y: overlay;
+    overflow-y: scroll;
     display: flex;
     flex-direction: column;
 `;
 
-const Item = styled(NavLink)`
+const Item = transition.div.attrs({
+    unmountOnExit: true,
+    timeout: {
+        enter: 300,
+        exit: 200,
+    },
+})`
+    transition: 0.15s ease-in;
+
+    &:enter {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    &:enter-active {
+        opacity: 1;
+        transform: initial;
+        transition: 0.3s ease-out;
+        
+    }
+
+    &:exit {
+        opacity: 1;
+    }
+
+    &:exit-active {
+        opacity: 0;
+        transition: 0.2s ease-in;
+        
+    }
+`;
+
+const Link = styled(NavLink)`
+    display: inline-block;
+    width: 100%;
     padding: 1rem 1.5rem;
     text-decoration: none;
     color: var(--primary);
-    text-shadow: 0 0 4px var(--primary);
+    text-shadow: var(--shadow-primary);
     transition: 0.15s ease-in;
 
     &:hover {
         cursor: pointer;
         background: var(--primary-variant);
         transition: 0.15s ease-out;
+    }
+
+    &:focus {
+        background: none;
     }
 
     &.active {
@@ -32,13 +72,13 @@ const Item = styled(NavLink)`
 const Loading = styled.p`
     @keyframes loading {
         0% {
-            opacity: 0.5;
+            opacity: 0.4;
         }
         50% {
             opacity: 1;
         }
         100% {
-            opacity: 0.5;
+            opacity: 0.4;
         }
     }
 
@@ -116,40 +156,43 @@ function People({ setPerson }: ComponentProps) {
 
     return (
         <Container>
-            {people.map(
-                (item: {
-                    name: string;
-                    height: string;
-                    mass: string;
-                    hair_color: string;
-                    skin_color: string;
-                    eye_color: string;
-                    birth_year: string;
-                    gender: string;
-                    homeworld: string;
-                    films: string[];
-                    species: string[];
-                    vehicles: string[];
-                    starships: string[];
-                    created: string;
-                    edited: string;
-                    url: string;
-                }) =>
-                    item.name !== "" && (
-                        <Item
-                            key={item.name}
-                            to={`/${item.url.split(/\//)[4]}/${
-                                item.url.split(/\//)[5]
-                            }`}
-                            onClick={() => setPerson(item)}
-                        >
-                            {item.name}
-                        </Item>
-                    )
-            )}
-            {next !== "" && !loading && (
-                <Loading ref={loader}>Loading...</Loading>
-            )}
+            <TransitionGroup component={null}>
+                {people.map(
+                    (item: {
+                        name: string;
+                        height: string;
+                        mass: string;
+                        hair_color: string;
+                        skin_color: string;
+                        eye_color: string;
+                        birth_year: string;
+                        gender: string;
+                        homeworld: string;
+                        films: string[];
+                        species: string[];
+                        vehicles: string[];
+                        starships: string[];
+                        created: string;
+                        edited: string;
+                        url: string;
+                    }) =>
+                        item.name !== "" && (
+                            <Item key={item.name}>
+                                <Link
+                                    to={`/${item.url.split(/\//)[4]}/${
+                                        item.url.split(/\//)[5]
+                                    }`}
+                                    onClick={() => setPerson(item)}
+                                >
+                                    {item.name}
+                                </Link>
+                            </Item>
+                        )
+                )}
+                {next !== "" && !loading && (
+                    <Loading ref={loader}>Loading...</Loading>
+                )}
+            </TransitionGroup>
         </Container>
     );
 }

@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import useAxios from "components/useAxios";
 
-import Panel from "components/Panel";
+import Article from "components/Article";
 import Label from "components/Label";
 import List from "components/List";
 
@@ -41,65 +41,68 @@ function Film({
     setStarship,
 }: ComponentProps) {
     const { id } = useParams<{ id: string }>();
+    const { response, loading } = useAxios({
+        url: `/films/${id}/`,
+        data: data,
+    });
 
     useEffect(() => {
-        data.url.split(/\//)[5] !== id &&
-            axios.get(`https://swapi.dev/api/films/${id}/`).then((response) => {
-                response.data && setFilm(response.data);
-            });
-    }, [data.url, id, setFilm]);
+        setFilm(response);
+    }, [response, setFilm]);
 
     return (
-        <Panel title={data.title}>
-            <Label label="episode_id">
-                <p>{data.episode_id}</p>
-            </Label>
-            <Label label="opening_crawl" length={3}>
+        <Article
+            title={loading ? "" : data.title}
+            subtitle={`Episode ${data.episode_id}`}
+        >
+            <Label label="OPENING CRAWL" length={3} loading={loading}>
                 <p>{data.opening_crawl}</p>
             </Label>
-            <Label label="director">
+            <Label label="DIRECTOR" loading={loading}>
                 <p>{data.director}</p>
             </Label>
-            <Label label="producer">
+            <Label label="PRODUCER" loading={loading}>
                 <p>{data.producer}</p>
             </Label>
-            <Label label="release_date">
+            <Label label="RELEASE DATE" loading={loading}>
                 <p>{data.release_date}</p>
             </Label>
-            <List
-                label="characters"
-                list={data.characters}
-                setActive={setPerson}
-            />
+            {data.characters[0] && (
+                <List
+                    label="CHARACTERS"
+                    list={loading ? [""] : data.characters}
+                    setActive={setPerson}
+                />
+            )}
             {data.planets[0] && (
                 <List
-                    label="planets"
-                    list={data.planets}
+                    label="PLANETS"
+                    list={loading ? [""] : data.planets}
                     setActive={setPlanet}
                 />
             )}
             {data.species[0] && (
                 <List
-                    label="species"
-                    list={data.species}
+                    label="SPECIES"
+                    list={loading ? [""] : data.species}
                     setActive={setSpecie}
                 />
             )}
             {data.vehicles[0] && (
                 <List
-                    label="vehicles"
-                    list={data.vehicles}
+                    label="VEHICLES"
+                    list={loading ? [""] : data.vehicles}
                     setActive={setVehicle}
                 />
             )}
             {data.starships[0] && (
                 <List
-                    label="starships"
-                    list={data.starships}
+                    label="STARSHIPS"
+                    list={loading ? [""] : data.starships}
                     setActive={setStarship}
                 />
             )}
-        </Panel>
+        </Article>
     );
 }
 

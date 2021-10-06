@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import useAxios from "components/useAxios";
 
-import Panel from "components/Panel";
+import Article from "components/Article";
 import Label from "components/Label";
 import List from "components/List";
 
@@ -38,51 +38,63 @@ function Specie({
     setSpecie,
 }: ComponentProps) {
     const { id } = useParams<{ id: string }>();
+    const { response, loading } = useAxios({
+        url: `/species/${id}/`,
+        data: data,
+    });
 
     useEffect(() => {
-        data.url.split(/\//)[5] !== id &&
-            axios
-                .get(`https://swapi.dev/api/species/${id}/`)
-                .then((response) => {
-                    response.data && setSpecie(response.data);
-                });
-    }, [data.url, id, setSpecie]);
+        setSpecie(response);
+    }, [response, setSpecie]);
+
     return (
-        <Panel title={data.name}>
-            <Label label="classification">
+        <Article title={loading ? "" : data.name}>
+            <Label label="CLASSIFICATION" loading={loading}>
                 <p>{data.classification}</p>
             </Label>
-            <Label label="designation">
+            <Label label="DESIGNATION" loading={loading}>
                 <p>{data.designation}</p>
             </Label>
-            <Label label="average_height">
+            <Label label="AVERAGE HEIGHT (cm)" loading={loading}>
                 <p>{data.average_height}</p>
             </Label>
-            <Label label="skin_colors">
+            <Label label="SKIN COLORS" loading={loading}>
                 <p>{data.skin_colors}</p>
             </Label>
-            <Label label="hair_colors">
+            <Label label="HAIR COLORS" loading={loading}>
                 <p>{data.hair_colors}</p>
             </Label>
-            <Label label="eye_colors">
+            <Label label="EYE COLORS" loading={loading}>
                 <p>{data.eye_colors}</p>
             </Label>
-            <Label label="average_lifespan">
+            <Label label="AVERAGE LIFESPAN" loading={loading}>
                 <p>{data.average_lifespan}</p>
             </Label>
-            <List
-                label="homeworld"
-                list={[data.homeworld]}
-                setActive={setPlanet}
-            />
-            <Label label="language">
+            {data.homeworld && (
+                <List
+                    label="HOMEWORLD"
+                    list={loading ? [""] : [data.homeworld]}
+                    setActive={setPlanet}
+                />
+            )}
+            <Label label="LANGUAGE" loading={loading}>
                 <p>{data.language}</p>
             </Label>
-            <List label="people" list={data.people} setActive={setPerson} />
-            {data.films[1] && (
-                <List label="films" list={data.films} setActive={setFilm} />
+            {data.people[1] && (
+                <List
+                    label="PEOPLE"
+                    list={loading ? [""] : data.people}
+                    setActive={setPerson}
+                />
             )}
-        </Panel>
+            {data.films[1] && (
+                <List
+                    label="FILMS"
+                    list={loading ? [""] : data.films}
+                    setActive={setFilm}
+                />
+            )}
+        </Article>
     );
 }
 

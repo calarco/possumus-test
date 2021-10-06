@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import useAxios from "components/useAxios";
 
-import Panel from "components/Panel";
+import Article from "components/Article";
 import Label from "components/Label";
 import List from "components/List";
 
@@ -32,53 +32,62 @@ type ComponentProps = {
 
 function Vehicle({ data, setPerson, setFilm, setVehicle }: ComponentProps) {
     const { id } = useParams<{ id: string }>();
+    const { response, loading } = useAxios({
+        url: `/vehicles/${id}/`,
+        data: data,
+    });
 
     useEffect(() => {
-        data.url.split(/\//)[5] !== id &&
-            axios
-                .get(`https://swapi.dev/api/vehicles/${id}/`)
-                .then((response) => {
-                    response.data && setVehicle(response.data);
-                });
-    }, [data.url, id, setVehicle]);
+        setVehicle(response);
+    }, [response, setVehicle]);
 
     return (
-        <Panel title={data.name}>
-            <Label label="model">
+        <Article title={loading ? "" : data.name}>
+            <Label label="MODEL" loading={loading}>
                 <p>{data.model}</p>
             </Label>
-            <Label label="manufacturer">
+            <Label label="MANUFACTURER" loading={loading}>
                 <p>{data.manufacturer}</p>
             </Label>
-            <Label label="cost_in_credits">
+            <Label label="COST (credits)" loading={loading}>
                 <p>{data.cost_in_credits}</p>
             </Label>
-            <Label label="length">
+            <Label label="LENGTH (m)" loading={loading}>
                 <p>{data.length}</p>
             </Label>
-            <Label label="max_atmosphering_speed">
+            <Label label="MAX ATMOSPHERING SPEED" loading={loading}>
                 <p>{data.max_atmosphering_speed}</p>
             </Label>
-            <Label label="crew">
+            <Label label="CREW" loading={loading}>
                 <p>{data.crew}</p>
             </Label>
-            <Label label="passengers">
+            <Label label="PASSENGERS" loading={loading}>
                 <p>{data.passengers}</p>
             </Label>
-            <Label label="cargo_capacity">
+            <Label label="CARGO CAPACITY" loading={loading}>
                 <p>{data.cargo_capacity}</p>
             </Label>
-            <Label label="consumables">
+            <Label label="CONSUMABLES" loading={loading}>
                 <p>{data.consumables}</p>
             </Label>
-            <Label label="vehicle_class">
+            <Label label="VEHICLE CLASS" loading={loading}>
                 <p>{data.vehicle_class}</p>
             </Label>
-            <List label="pilots" list={data.pilots} setActive={setPerson} />
-            {data.films[1] && (
-                <List label="films" list={data.films} setActive={setFilm} />
+            {data.pilots[1] && (
+                <List
+                    label="PILOTS"
+                    list={loading ? [""] : data.pilots}
+                    setActive={setPerson}
+                />
             )}
-        </Panel>
+            {data.films[1] && (
+                <List
+                    label="FILMS"
+                    list={loading ? [""] : data.films}
+                    setActive={setFilm}
+                />
+            )}
+        </Article>
     );
 }
 

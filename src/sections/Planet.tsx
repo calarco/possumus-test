@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
+import useAxios from "components/useAxios";
 
-import Panel from "components/Panel";
+import Article from "components/Article";
 import Label from "components/Label";
 import List from "components/List";
 
@@ -30,51 +30,56 @@ type ComponentProps = {
 
 function Planet({ data, setPerson, setFilm, setPlanet }: ComponentProps) {
     const { id } = useParams<{ id: string }>();
+    const { response, loading } = useAxios({
+        url: `/planets/${id}/`,
+        data: data,
+    });
 
     useEffect(() => {
-        data.url.split(/\//)[5] !== id &&
-            axios
-                .get(`https://swapi.dev/api/planets/${id}/`)
-                .then((response) => {
-                    response.data && setPlanet(response.data);
-                });
-    }, [data.url, id, setPlanet]);
+        setPlanet(response);
+    }, [response, setPlanet]);
 
     return (
-        <Panel title={data.name}>
-            <Label label="rotation_period">
+        <Article title={loading ? "" : data.name}>
+            <Label label="ROTATION PERIOD" loading={loading}>
                 <p>{data.rotation_period}</p>
             </Label>
-            <Label label="orbital_period">
+            <Label label="ORBITAL PERIOD" loading={loading}>
                 <p>{data.orbital_period}</p>
             </Label>
-            <Label label="diameter">
+            <Label label="DIAMETER" loading={loading}>
                 <p>{data.diameter}</p>
             </Label>
-            <Label label="climate">
+            <Label label="CLIMATE" loading={loading}>
                 <p>{data.climate}</p>
             </Label>
-            <Label label="gravity">
+            <Label label="GRAVITY" loading={loading}>
                 <p>{data.gravity}</p>
             </Label>
-            <Label label="terrain">
+            <Label label="TERRAIN" loading={loading}>
                 <p>{data.terrain}</p>
             </Label>
-            <Label label="surface_water">
+            <Label label="SURFACE WATER" loading={loading}>
                 <p>{data.surface_water}</p>
             </Label>
-            <Label label="population">
+            <Label label="POPULATION" loading={loading}>
                 <p>{data.population}</p>
             </Label>
-            <List
-                label="residents"
-                list={data.residents}
-                setActive={setPerson}
-            />
-            {data.films[1] && (
-                <List label="films" list={data.films} setActive={setFilm} />
+            {data.residents[1] && (
+                <List
+                    label="RESIDENTS"
+                    list={loading ? [""] : data.residents}
+                    setActive={setPerson}
+                />
             )}
-        </Panel>
+            {data.films[1] && (
+                <List
+                    label="FILMS"
+                    list={loading ? [""] : data.films}
+                    setActive={setFilm}
+                />
+            )}
+        </Article>
     );
 }
 

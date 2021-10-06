@@ -1,8 +1,11 @@
 import React from "react";
 import styled, { css } from "styled-components";
 
+import { Device } from "globalStyle";
+
 type Props = {
-    readonly length?: number;
+    length?: number;
+    loading?: boolean;
 };
 
 const Container = styled.div<Props>`
@@ -10,6 +13,7 @@ const Container = styled.div<Props>`
     padding: 0.25rem 1rem;
     display: grid;
     gap: 0.25rem;
+    transition: 0.2s ease-in;
 
     &::after {
         content: "";
@@ -20,14 +24,7 @@ const Container = styled.div<Props>`
         border-left: 1px solid var(--secondary);
     }
 
-    ${(props) =>
-        props.length &&
-        css`
-            grid-column-end: span ${props.length > 3 ? 3 : props.length};
-        `};
-
     label {
-        text-transform: uppercase;
         font-weight: 600;
         color: var(--on-background-variant);
     }
@@ -36,6 +33,9 @@ const Container = styled.div<Props>`
         padding: 0.25rem 0.5rem;
         color: var(--on-background);
         font: var(--body1);
+        text-align: justify;
+        opacity: 1;
+        transition: 0.2s ease-in;
     }
 
     ul {
@@ -46,17 +46,68 @@ const Container = styled.div<Props>`
         flex-wrap: wrap;
         gap: 0.5rem;
     }
+
+    a {
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        text-decoration: none;
+        color: var(--primary);
+        text-shadow: var(--shadow-primary);
+        transition: 0.15s ease-in;
+
+        &:hover {
+            cursor: pointer;
+            background: var(--primary-variant);
+            transition: 0.15s ease-out;
+        }
+
+        &:focus {
+            background: none;
+        }
+    }
+
+    ${(props) =>
+        props.length &&
+        css`
+            @media ${Device.laptop} {
+                grid-column-end: span ${props.length > 3 ? 3 : props.length};
+            }
+        `};
+
+    ${(props) =>
+        props.loading &&
+        css`
+            @keyframes loading {
+                0% {
+                    opacity: 0.4;
+                }
+                50% {
+                    opacity: 0.8;
+                }
+                100% {
+                    opacity: 0.4;
+                }
+            }
+            animation-name: loading;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+
+            p {
+                opacity: 0;
+            }
+        `};
 `;
 
 type ComponentProps = {
     label: string;
     length?: number;
+    loading?: boolean;
     children: React.ReactNode;
 };
 
-function Label({ label, length, children }: ComponentProps) {
+function Label({ label, length, loading, children }: ComponentProps) {
     return (
-        <Container length={length}>
+        <Container length={length} loading={loading}>
             <label>{label}</label>
             {children}
         </Container>

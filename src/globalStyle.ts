@@ -49,6 +49,9 @@ const GlobalStyle = createGlobalStyle`
         --on-background: rgba(255, 255, 255, 0.8);
         --on-background-variant: rgba(255, 255, 255, 0.6);
 
+        --shadow-primary: 0 0 0.5rem var(--primary);
+        --shadow-secondary: 0 0 0.5rem var(--secondary);
+
         --font-family: "ShareTechMono-Regular";
         --font-family-alt: "SpaceMono-Bold";
 
@@ -182,7 +185,7 @@ const GlobalStyle = createGlobalStyle`
         background: none;
         border: none;
         color: var(--primary);
-        text-shadow: 0 0 4px var(--primary);
+        text-shadow: var(--shadow-primary);
         font: var(--body1);
         text-align: left;
         transition: 0.15s ease-in;
