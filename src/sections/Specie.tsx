@@ -1,78 +1,56 @@
-import Article from "components/Article";
 import Label from "components/Label";
 import List from "components/List";
 
 type ComponentProps = {
-    data: {
-        name: string;
-        classification: string;
-        designation: string;
-        average_height: string;
-        skin_colors: string;
-        hair_colors: string;
-        eye_colors: string;
-        average_lifespan: string;
-        homeworld: string;
-        language: string;
-        people: string[];
-        films: string[];
-        created: string;
-        edited: string;
-        url: string;
-    };
+    data: Data;
     setCurrent: (current: any) => void;
-    loading: boolean;
 };
 
-function Specie({ data, setCurrent, loading }: ComponentProps) {
+function Specie({ data, setCurrent }: ComponentProps) {
     return (
-        <Article title={loading ? "" : data.name}>
-            <Label label="CLASSIFICATION" loading={loading}>
+        <>
+            <Label label="CLASSIFICATION">
                 <p>{data.classification}</p>
             </Label>
-            <Label label="DESIGNATION" loading={loading}>
+            <Label label="DESIGNATION">
                 <p>{data.designation}</p>
             </Label>
-            <Label label="AVERAGE HEIGHT (cm)" loading={loading}>
+            <Label label="AVERAGE HEIGHT (cm)">
                 <p>{data.average_height}</p>
             </Label>
-            <Label label="SKIN COLORS" loading={loading}>
+            <Label label="SKIN COLORS">
                 <p>{data.skin_colors}</p>
             </Label>
-            <Label label="HAIR COLORS" loading={loading}>
+            <Label label="HAIR COLORS">
                 <p>{data.hair_colors}</p>
             </Label>
-            <Label label="EYE COLORS" loading={loading}>
+            <Label label="EYE COLORS">
                 <p>{data.eye_colors}</p>
             </Label>
-            <Label label="AVERAGE LIFESPAN" loading={loading}>
+            <Label label="AVERAGE LIFESPAN">
                 <p>{data.average_lifespan}</p>
             </Label>
             {data.homeworld && (
                 <List
                     label="HOMEWORLD"
-                    list={loading ? [""] : [data.homeworld]}
+                    list={[data.homeworld]}
                     setCurrent={setCurrent}
                 />
             )}
-            <Label label="LANGUAGE" loading={loading}>
+            <Label label="LANGUAGE">
                 <p>{data.language}</p>
             </Label>
-            {data.people[1] && (
+            {data.people && data.people[1] && (
                 <List
                     label="PEOPLE"
-                    list={loading ? [""] : data.people}
+                    list={data.people}
                     setCurrent={setCurrent}
                 />
             )}
-            {data.films[1] && (
-                <List
-                    label="FILMS"
-                    list={loading ? [""] : data.films}
-                    setCurrent={setCurrent}
-                />
+            {data.films && data.films[1] && (
+                <List label="FILMS" list={data.films} setCurrent={setCurrent} />
             )}
-        </Article>
+        </>
     );
 }
 

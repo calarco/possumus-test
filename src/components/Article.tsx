@@ -1,16 +1,40 @@
 import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useHistory } from "react-router-dom";
 import { ReactComponent as Arrow } from "back_arrow.svg";
 
 import { Device } from "globalStyle";
 
-const Container = styled.article`
+type Props = {
+    length?: number;
+    loading?: boolean;
+};
+
+const Container = styled.article<Props>`
     max-height: 100%;
     display: grid;
     grid-template-rows: auto 1fr;
     opacity: 1;
     transition: 0.3s ease-out;
+
+    ${(props) =>
+        props.loading &&
+        css`
+            @keyframes loading {
+                0% {
+                    opacity: 0.4;
+                }
+                50% {
+                    opacity: 0.8;
+                }
+                100% {
+                    opacity: 0.4;
+                }
+            }
+            animation-name: loading;
+            animation-duration: 2s;
+            animation-iteration-count: infinite;
+        `};
 `;
 
 const Header = styled.div`
@@ -60,28 +84,42 @@ const Content = styled.div`
 `;
 
 type ComponentProps = {
-    title: string;
+    title?: string;
     subtitle?: string;
+    loading?: boolean;
+    className?: string;
     children: React.ReactNode;
 };
 
-function Article({ title, subtitle, children }: ComponentProps) {
+function Article({
+    title,
+    subtitle,
+    loading,
+    className,
+    children,
+}: ComponentProps) {
     let history = useHistory();
 
     return (
-        <Container>
-            <Header>
-                <button
-                    type="button"
-                    onClick={() => history.goBack()}
-                    aria-label="Back"
-                >
-                    <Arrow fill="var(--secondary)" />
-                </button>
-                <h3>{title}</h3>
-                {subtitle && <h4>{subtitle}</h4>}
-            </Header>
-            <Content>{children}</Content>
+        <Container loading={loading} className={className}>
+            {title ? (
+                <>
+                    <Header>
+                        <button
+                            type="button"
+                            onClick={() => history.goBack()}
+                            aria-label="Back"
+                        >
+                            <Arrow fill="var(--secondary)" />
+                        </button>
+                        <h3>{title}</h3>
+                        {subtitle && <h4>{subtitle}</h4>}
+                    </Header>
+                    <Content>{children}</Content>
+                </>
+            ) : (
+                children
+            )}
         </Container>
     );
 }

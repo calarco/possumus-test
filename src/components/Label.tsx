@@ -33,7 +33,6 @@ const Container = styled.div<Props>`
         padding: 0.25rem 0.5rem;
         color: var(--on-background);
         font: var(--body1);
-        text-align: justify;
         opacity: 1;
         transition: 0.2s ease-in;
     }
@@ -72,6 +71,13 @@ const Container = styled.div<Props>`
             @media ${Device.laptop} {
                 grid-column-end: span ${props.length > 3 ? 3 : props.length};
             }
+
+            ${props.length > 2 &&
+            css`
+                p {
+                    text-align: justify;
+                }
+            `};
         `};
 
     ${(props) =>

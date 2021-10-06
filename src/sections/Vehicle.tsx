@@ -1,78 +1,55 @@
-import Article from "components/Article";
 import Label from "components/Label";
 import List from "components/List";
 
 type ComponentProps = {
-    data: {
-        name: string;
-        model: string;
-        manufacturer: string;
-        cost_in_credits: string;
-        length: string;
-        max_atmosphering_speed: string;
-        crew: string;
-        passengers: string;
-        cargo_capacity: string;
-        consumables: string;
-        vehicle_class: string;
-        pilots: string[];
-        films: string[];
-        created: string;
-        edited: string;
-        url: string;
-    };
+    data: Data;
     setCurrent: (current: any) => void;
-    loading: boolean;
 };
 
-function Vehicle({ data, setCurrent, loading }: ComponentProps) {
+function Vehicle({ data, setCurrent }: ComponentProps) {
     return (
-        <Article title={loading ? "" : data.name}>
-            <Label label="MODEL" loading={loading}>
+        <>
+            <Label label="MODEL">
                 <p>{data.model}</p>
             </Label>
-            <Label label="MANUFACTURER" loading={loading}>
+            <Label label="MANUFACTURER">
                 <p>{data.manufacturer}</p>
             </Label>
-            <Label label="COST (credits)" loading={loading}>
+            <Label label="COST (credits)">
                 <p>{data.cost_in_credits}</p>
             </Label>
-            <Label label="LENGTH (m)" loading={loading}>
+            <Label label="LENGTH (m)">
                 <p>{data.length}</p>
             </Label>
-            <Label label="MAX ATMOSPHERING SPEED" loading={loading}>
+            <Label label="MAX ATMOSPHERING SPEED">
                 <p>{data.max_atmosphering_speed}</p>
             </Label>
-            <Label label="CREW" loading={loading}>
+            <Label label="CREW">
                 <p>{data.crew}</p>
             </Label>
-            <Label label="PASSENGERS" loading={loading}>
+            <Label label="PASSENGERS">
                 <p>{data.passengers}</p>
             </Label>
-            <Label label="CARGO CAPACITY" loading={loading}>
+            <Label label="CARGO CAPACITY">
                 <p>{data.cargo_capacity}</p>
             </Label>
-            <Label label="CONSUMABLES" loading={loading}>
+            <Label label="CONSUMABLES">
                 <p>{data.consumables}</p>
             </Label>
-            <Label label="VEHICLE CLASS" loading={loading}>
+            <Label label="VEHICLE CLASS">
                 <p>{data.vehicle_class}</p>
             </Label>
-            {data.pilots[1] && (
+            {data.pilots && data.pilots[1] && (
                 <List
                     label="PILOTS"
-                    list={loading ? [""] : data.pilots}
+                    list={data.pilots}
                     setCurrent={setCurrent}
                 />
             )}
-            {data.films[1] && (
-                <List
-                    label="FILMS"
-                    list={loading ? [""] : data.films}
-                    setCurrent={setCurrent}
-                />
+            {data.films && data.films[1] && (
+                <List label="FILMS" list={data.films} setCurrent={setCurrent} />
             )}
-        </Article>
+        </>
     );
 }
 

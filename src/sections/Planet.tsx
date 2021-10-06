@@ -1,70 +1,49 @@
-import Article from "components/Article";
 import Label from "components/Label";
 import List from "components/List";
 
 type ComponentProps = {
-    data: {
-        name: string;
-        rotation_period: string;
-        orbital_period: string;
-        diameter: string;
-        climate: string;
-        gravity: string;
-        terrain: string;
-        surface_water: string;
-        population: string;
-        residents: string[];
-        films: string[];
-        created: string;
-        edited: string;
-        url: string;
-    };
+    data: Data;
     setCurrent: (current: any) => void;
-    loading: boolean;
 };
 
-function Planet({ data, setCurrent, loading }: ComponentProps) {
+function Planet({ data, setCurrent }: ComponentProps) {
     return (
-        <Article title={loading ? "" : data.name}>
-            <Label label="ROTATION PERIOD" loading={loading}>
+        <>
+            <Label label="ROTATION PERIOD">
                 <p>{data.rotation_period}</p>
             </Label>
-            <Label label="ORBITAL PERIOD" loading={loading}>
+            <Label label="ORBITAL PERIOD">
                 <p>{data.orbital_period}</p>
             </Label>
-            <Label label="DIAMETER" loading={loading}>
+            <Label label="DIAMETER">
                 <p>{data.diameter}</p>
             </Label>
-            <Label label="CLIMATE" loading={loading}>
+            <Label label="CLIMATE">
                 <p>{data.climate}</p>
             </Label>
-            <Label label="GRAVITY" loading={loading}>
+            <Label label="GRAVITY">
                 <p>{data.gravity}</p>
             </Label>
-            <Label label="TERRAIN" loading={loading}>
+            <Label label="TERRAIN">
                 <p>{data.terrain}</p>
             </Label>
-            <Label label="SURFACE WATER" loading={loading}>
+            <Label label="SURFACE WATER">
                 <p>{data.surface_water}</p>
             </Label>
-            <Label label="POPULATION" loading={loading}>
+            <Label label="POPULATION">
                 <p>{data.population}</p>
             </Label>
-            {data.residents[1] && (
+            {data.residents && data.residents[1] && (
                 <List
                     label="RESIDENTS"
-                    list={loading ? [""] : data.residents}
+                    list={data.residents}
                     setCurrent={setCurrent}
                 />
             )}
-            {data.films[1] && (
-                <List
-                    label="FILMS"
-                    list={loading ? [""] : data.films}
-                    setCurrent={setCurrent}
-                />
+            {data.films && data.films[1] && (
+                <List label="FILMS" list={data.films} setCurrent={setCurrent} />
             )}
-        </Article>
+        </>
     );
 }
 
