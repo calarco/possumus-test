@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { Location } from "history";
-import styled, { css } from "styled-components";
+import { css } from "styled-components";
 import { SwitchTransition, TransitionGroup } from "react-transition-group";
 import transition from "styled-transition-group";
 
@@ -38,30 +38,40 @@ const Container = transition.div.attrs({
         margin: 2rem;
     }
 
-    > div {
-        height: 100%;
-        border-radius: 2px;
-        overflow: hidden;
-        background: var(--secondary-variant);
-        backdrop-filter: blur(1rem) saturate(0);
+    ${(props) =>
+        !props.home &&
+        css`
+            overflow: hidden;
+            background: var(--secondary-variant);
+            backdrop-filter: blur(1rem) saturate(0);
 
-        @media ${Device.laptop} {
-            border: 1px solid var(--secondary);
-            box-shadow: var(--shadow-secondary);
-            backdrop-filter: none;
-        }
+            @media ${Device.laptop} {
+                border-radius: 2px;
+                border: 1px solid var(--secondary);
+                box-shadow: var(--shadow-secondary);
+                backdrop-filter: none;
+            }
+        `}
 
-        ${(props) =>
-            props.home &&
-            css`
-                background: none;
+    ${(props) =>
+        props.home &&
+        css`
+            visibility: hidden;
+            opacity: 0;
+            display: grid;
+            align-content: center;
+            justify-items: center;
+            gap: 1rem;
 
-                @media ${Device.laptop} {
-                    border: none;
-                    box-shadow: none;
-                }
-            `};
-    }
+            @media ${Device.laptop} {
+                visibility: visible;
+                opacity: 1;
+            }
+
+            h3 {
+                color: var(--on-background-variant);
+            }
+        `};
 
     &:enter {
         opacity: 0;
@@ -83,18 +93,6 @@ const Container = transition.div.attrs({
         transform: translateY(-1rem);
         transition: 0.2s ease-in;
     }
-
-    ${(props) =>
-        props.home &&
-        css`
-            visibility: hidden;
-            opacity: 0;
-
-            @media ${Device.laptop} {
-                visibility: visible;
-                opacity: 1;
-            }
-        `};
 `;
 
 const Article = transition(ArticleComponent).attrs({
@@ -112,6 +110,7 @@ const Article = transition(ArticleComponent).attrs({
 
     &:enter {
         opacity: 0;
+        transform: translateX(-1rem);
     }
 
     &:enter-active {
@@ -126,21 +125,7 @@ const Article = transition(ArticleComponent).attrs({
 
     &:exit-active {
         opacity: 0;
-        transform: translateY(-1rem);
         transition: 0.2s ease-in;
-    }
-`;
-
-const Home = styled.div`
-    width: 100%;
-    height: 100%;
-    display: grid;
-    align-content: center;
-    justify-items: center;
-    gap: 1rem;
-
-    h3 {
-        color: var(--on-background-variant);
     }
 `;
 
@@ -168,14 +153,12 @@ function Routes({ location, current, setCurrent }: ComponentProps) {
         <SwitchTransition>
             {location.pathname === "/" ? (
                 <Container key={0} home={true}>
-                    <Home>
-                        <h1>Star Wars</h1>
-                        <h3>database</h3>
-                    </Home>
+                    <h1>Star Wars</h1>
+                    <h3>database</h3>
                 </Container>
             ) : (
                 <Container key={1} home={false}>
-                    <TransitionGroup component={"div"}>
+                    <TransitionGroup component={null}>
                         <Article
                             key={current.url}
                             title={current.name || current.title}

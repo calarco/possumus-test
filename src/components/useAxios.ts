@@ -18,6 +18,7 @@ const useAxios = ({ url, dontLoad }: HookProps) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        setLoading(true);
         (url === "/" || dontLoad)
             ? setLoading(false)
             : axios.get(url)
@@ -32,7 +33,7 @@ const useAxios = ({ url, dontLoad }: HookProps) => {
                 });
     }, [url, dontLoad]);
 
-    return { response, error, loading };
+    return {response, error, loading};
 };
 
 export default useAxios;

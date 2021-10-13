@@ -82,12 +82,12 @@ function List({ label, list, setCurrent }: ComponentProps) {
                                 </Item>
                             )
                     )}
+                    {loading && (
+                        <Item key={0}>
+                            <button type="button">_</button>
+                        </Item>
+                    )}
                 </TransitionGroup>
-                {loading && (
-                    <Item key={0}>
-                        <button type="button">_</button>
-                    </Item>
-                )}
             </ul>
         </Label>
     );

@@ -22,10 +22,10 @@ const Container = styled.div<Props>`
         left: 0;
         height: 100%;
         border-left: 1px solid var(--secondary);
+        box-shadow: var(--shadow-secondary);
     }
 
     label {
-        font-weight: 600;
         color: var(--on-background-variant);
     }
 
@@ -46,29 +46,14 @@ const Container = styled.div<Props>`
         gap: 0.5rem;
     }
 
-    a {
-        padding: 0.25rem 0.5rem;
-        border-radius: 4px;
-        text-decoration: none;
-        color: var(--primary);
-        text-shadow: var(--shadow-primary);
-        transition: 0.15s ease-in;
-
-        &:hover {
-            cursor: pointer;
-            background: var(--primary-variant);
-            transition: 0.15s ease-out;
-        }
-
-        &:focus {
-            background: none;
-        }
-    }
-
     ${(props) =>
         props.length &&
         css`
             @media ${Device.laptop} {
+                grid-column-end: span ${props.length > 2 ? 2 : props.length};
+            }
+
+            @media ${Device.desktop} {
                 grid-column-end: span ${props.length > 3 ? 3 : props.length};
             }
 

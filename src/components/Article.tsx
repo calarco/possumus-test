@@ -6,7 +6,6 @@ import { ReactComponent as Arrow } from "back_arrow.svg";
 import { Device } from "globalStyle";
 
 type Props = {
-    length?: number;
     loading?: boolean;
 };
 
@@ -15,25 +14,13 @@ const Container = styled.article<Props>`
     display: grid;
     grid-template-rows: auto 1fr;
     opacity: 1;
-    transition: 0.3s ease-out;
+    transition: 0.2s ease-out;
 
     ${(props) =>
         props.loading &&
         css`
-            @keyframes loading {
-                0% {
-                    opacity: 0.4;
-                }
-                50% {
-                    opacity: 0.8;
-                }
-                100% {
-                    opacity: 0.4;
-                }
-            }
-            animation-name: loading;
-            animation-duration: 2s;
-            animation-iteration-count: infinite;
+            opacity: 0.4;
+            transition: 0.3s ease-in;
         `};
 `;
 
@@ -41,18 +28,37 @@ const Header = styled.div`
     position: sticky;
     top: 0;
     width: 100%;
-    border-bottom: 1px solid var(--secondary);
     display: grid;
     align-items: center;
     grid-template-columns: auto 1fr auto;
 
+    &::after {
+        content: "";
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        border-bottom: 1px solid var(--secondary);
+        box-shadow: var(--shadow-secondary);
+    }
+
     button {
+        position: relative;
         height: 4rem;
         width: 4rem;
         padding: 0.5rem;
         border-radius: 0;
         color: var(--secondary);
-        border-right: 1px solid var(--secondary);
+
+        &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            border-right: 1px solid var(--secondary);
+            box-shadow: var(--shadow-secondary);
+        }
 
         svg {
             height: 3rem;
@@ -71,7 +77,7 @@ const Header = styled.div`
 
 const Content = styled.div`
     padding: 2rem;
-    overflow-y: scroll;
+    overflow-y: auto;
     display: grid;
     align-content: start;
     align-items: start;
@@ -79,6 +85,10 @@ const Content = styled.div`
     gap: 2rem;
 
     @media ${Device.laptop} {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    @media ${Device.desktop} {
         grid-template-columns: 1fr 1fr 1fr;
     }
 `;

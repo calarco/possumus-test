@@ -48,23 +48,16 @@ const Link = styled(NavLink)`
     display: inline-block;
     width: 100%;
     padding: 1rem 1.5rem;
-    text-decoration: none;
-    color: var(--primary);
-    text-shadow: var(--shadow-primary);
-    transition: 0.15s ease-in;
-
-    &:hover {
-        cursor: pointer;
-        background: var(--primary-variant);
-        transition: 0.15s ease-out;
-    }
+    border-radius: 0;
 
     &:focus {
         background: none;
     }
 
     &.active {
+        background: var(--secondary-variant);
         color: var(--secondary);
+        text-shadow: var(--shadow-secondary);
         pointer-events: none;
     }
 `;
@@ -158,24 +151,7 @@ function People({ setCurrent }: ComponentProps) {
         <Container>
             <TransitionGroup component={null}>
                 {people.map(
-                    (item: {
-                        name: string;
-                        height: string;
-                        mass: string;
-                        hair_color: string;
-                        skin_color: string;
-                        eye_color: string;
-                        birth_year: string;
-                        gender: string;
-                        homeworld: string;
-                        films: string[];
-                        species: string[];
-                        vehicles: string[];
-                        starships: string[];
-                        created: string;
-                        edited: string;
-                        url: string;
-                    }) =>
+                    (item: Data) =>
                         item.name !== "" && (
                             <Item key={item.name}>
                                 <Link

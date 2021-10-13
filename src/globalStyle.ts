@@ -10,12 +10,12 @@ const GlobalStyle = createGlobalStyle`
     ${normalize}
 
     ::-webkit-scrollbar {
-        width: 4px;
-        height: 4px;
+        width: 0.25rem;
+        height: 0.25rem;
     }
 
     ::-webkit-scrollbar-track {
-        background: #111;
+        background: var(--secondary-variant);
     }
 
     ::-webkit-scrollbar-thumb {
@@ -23,7 +23,7 @@ const GlobalStyle = createGlobalStyle`
     }
 
     ::-webkit-scrollbar-thumb:hover {
-        background: #b9100d;
+        background: var(--primary);
     }
 
     *,
@@ -55,14 +55,14 @@ const GlobalStyle = createGlobalStyle`
         --font-family: "ShareTechMono-Regular";
         --font-family-alt: "SpaceMono-Bold";
 
-        --label: 300 0.75rem/1.25rem var(--font-family-alt);
-        --body1: 300 0.9rem/1.25rem var(--font-family);
-        --body2: 500 0.9rem/1.5rem var(--font-family);
-        --subhead1: 300 1rem/1.5rem var(--font-family);
-        --subhead2: 500 1rem/1.75rem var(--font-family);
-        --title: 500 1.25rem/1.75rem var(--font-family-alt);
-        --headline: 300 1.5rem/2rem var(--font-family);
-        --display-1: 300 2rem/2.5rem var(--font-family);
+        --label: 400 0.75rem/1.25rem var(--font-family-alt);
+        --body1: 400 0.9rem/1.25rem var(--font-family);
+        --body2: 400 0.9rem/1.5rem var(--font-family);
+        --subhead1: 400 1rem/1.5rem var(--font-family);
+        --subhead2: 400 1rem/1.75rem var(--font-family);
+        --title: 700 1.25rem/1.75rem var(--font-family-alt);
+        --headline: 400 1.5rem/2rem var(--font-family);
+        --display-1: 400 2rem/2.5rem var(--font-family);
 
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
@@ -81,7 +81,6 @@ const GlobalStyle = createGlobalStyle`
     h2,
     h1,
     label {
-        display: inline-block;
         margin: 0;
     }
 
@@ -174,11 +173,8 @@ const GlobalStyle = createGlobalStyle`
         font: var(--label);
     }
 
-    b {
-        font-weight: 500;
-    }
-
-    button {
+    button, a {
+        display: inline-block;
         padding: 0.25rem 0.5rem;
         margin: 0;
         border-radius: 4px;
@@ -187,14 +183,15 @@ const GlobalStyle = createGlobalStyle`
         color: var(--primary);
         text-shadow: var(--shadow-primary);
         font: var(--body1);
-        text-align: left;
+        text-decoration: none;
+        text-align: center;
         transition: 0.15s ease-in;
-    }
 
-    button:hover {
-        cursor: pointer;
-        background: var(--primary-variant);
-        transition: 0.15s ease-out;
+        &:hover {
+            cursor: pointer;
+            background: var(--primary-variant);
+            transition: 0.15s ease-out;
+        }
     }
 `;
 
