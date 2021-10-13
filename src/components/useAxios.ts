@@ -18,6 +18,7 @@ const useAxios = ({ url, dontLoad }: HookProps) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
+        setError("");
         setLoading(true);
         (url === "/" || dontLoad)
             ? setLoading(false)
@@ -26,7 +27,7 @@ const useAxios = ({ url, dontLoad }: HookProps) => {
                     response.data && setResponse(response.data);
                 })
                 .catch((error) => {
-                    setError(error);
+                    setError(error.message);
                 })
                 .finally(() => {
                     setLoading(false);

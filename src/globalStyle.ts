@@ -46,6 +46,8 @@ const GlobalStyle = createGlobalStyle`
         --primary-variant: rgba(29, 142, 182, 0.2);
         --secondary: rgba(91, 174, 84, 1);
         --secondary-variant: rgba(91, 174, 84, 0.1);
+        --error: rgba(245, 41, 42, 1);
+        --error-variant: rgba(245, 41, 42, 0.2);
         --on-background: rgba(255, 255, 255, 0.8);
         --on-background-variant: rgba(255, 255, 255, 0.6);
 

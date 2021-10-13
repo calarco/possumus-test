@@ -30,6 +30,9 @@ const Container = transition.div.attrs({
     right: 0;
     bottom: 0;
     left: 0;
+    display: grid;
+    align-content: center;
+    justify-items: center;
     opacity: 1;
     transition: 0.3s ease-out;
 
@@ -58,9 +61,6 @@ const Container = transition.div.attrs({
         css`
             visibility: hidden;
             opacity: 0;
-            display: grid;
-            align-content: center;
-            justify-items: center;
             gap: 1rem;
 
             @media ${Device.laptop} {
@@ -136,7 +136,7 @@ type ComponentProps = {
 };
 
 function Routes({ location, current, setCurrent }: ComponentProps) {
-    const { response, loading } = useAxios({
+    const { response, loading, error } = useAxios({
         url: location.pathname,
         dontLoad:
             `/${current.url?.split(/\//)[4]}/${current.url?.split(/\//)[5]}` ===
@@ -160,8 +160,12 @@ function Routes({ location, current, setCurrent }: ComponentProps) {
                 <Container key={1} home={false}>
                     <TransitionGroup component={null}>
                         <Article
-                            key={current.url}
-                            title={current.name || current.title}
+                            key={error !== "" ? error : current.url}
+                            title={
+                                error !== ""
+                                    ? error
+                                    : current.name || current.title
+                            }
                             subtitle={
                                 current.episode_id
                                     ? `Episode ${current.episode_id}`
