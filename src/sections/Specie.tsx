@@ -1,5 +1,5 @@
 import Label from "components/Label";
-import List from "components/List";
+import Item from "components/Item";
 
 type ComponentProps = {
     data: Data;
@@ -31,24 +31,36 @@ function Specie({ data, setCurrent }: ComponentProps) {
                 <p>{data.average_lifespan}</p>
             </Label>
             {data.homeworld && (
-                <List
-                    label="HOMEWORLD"
-                    list={[data.homeworld]}
-                    setCurrent={setCurrent}
-                />
+                <Label label="HOMEWORLD">
+                    <ul>
+                        <Item
+                            key={data.homeworld}
+                            url={data.homeworld}
+                            setCurrent={setCurrent}
+                        />
+                    </ul>
+                </Label>
             )}
             <Label label="LANGUAGE">
                 <p>{data.language}</p>
             </Label>
             {data.people && data.people[1] && (
-                <List
-                    label="PEOPLE"
-                    list={data.people}
-                    setCurrent={setCurrent}
-                />
+                <Label label="PEOPLE" length={data.people.length}>
+                    <ul>
+                        {data.people.map((url: string) => (
+                            <Item key={url} url={url} setCurrent={setCurrent} />
+                        ))}
+                    </ul>
+                </Label>
             )}
             {data.films && data.films[1] && (
-                <List label="FILMS" list={data.films} setCurrent={setCurrent} />
+                <Label label="FILMS" length={data.films.length}>
+                    <ul>
+                        {data.films.map((url: string) => (
+                            <Item key={url} url={url} setCurrent={setCurrent} />
+                        ))}
+                    </ul>
+                </Label>
             )}
         </>
     );

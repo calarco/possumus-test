@@ -1,5 +1,5 @@
 import Label from "components/Label";
-import List from "components/List";
+import Item from "components/Item";
 
 type ComponentProps = {
     data: Data;
@@ -34,14 +34,22 @@ function Planet({ data, setCurrent }: ComponentProps) {
                 <p>{data.population}</p>
             </Label>
             {data.residents && data.residents[1] && (
-                <List
-                    label="RESIDENTS"
-                    list={data.residents}
-                    setCurrent={setCurrent}
-                />
+                <Label label="RESIDENTS" length={data.residents.length}>
+                    <ul>
+                        {data.residents.map((url: string) => (
+                            <Item key={url} url={url} setCurrent={setCurrent} />
+                        ))}
+                    </ul>
+                </Label>
             )}
             {data.films && data.films[1] && (
-                <List label="FILMS" list={data.films} setCurrent={setCurrent} />
+                <Label label="FILMS" length={data.films.length}>
+                    <ul>
+                        {data.films.map((url: string) => (
+                            <Item key={url} url={url} setCurrent={setCurrent} />
+                        ))}
+                    </ul>
+                </Label>
             )}
         </>
     );

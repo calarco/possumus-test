@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import styled from "styled-components";
 
 import GlobalStyle, { Device } from "globalStyle";
@@ -45,15 +45,7 @@ function App() {
             <Main>
                 <Content>
                     <People setCurrent={setCurrent} />
-                    <Route
-                        render={({ location }) => (
-                            <Routes
-                                location={location}
-                                current={current}
-                                setCurrent={setCurrent}
-                            />
-                        )}
-                    />
+                    <Routes current={current} setCurrent={setCurrent} />
                 </Content>
             </Main>
         </BrowserRouter>

@@ -5,7 +5,6 @@ import { Device } from "globalStyle";
 
 type Props = {
     length?: number;
-    loading?: boolean;
 };
 
 const Container = styled.div<Props>`
@@ -43,7 +42,7 @@ const Container = styled.div<Props>`
         list-style: none;
         display: flex;
         flex-wrap: wrap;
-        gap: 0.5rem;
+        gap: 1rem;
     }
 
     ${(props) =>
@@ -64,41 +63,17 @@ const Container = styled.div<Props>`
                 }
             `};
         `};
-
-    ${(props) =>
-        props.loading &&
-        css`
-            @keyframes loading {
-                0% {
-                    opacity: 0.4;
-                }
-                50% {
-                    opacity: 0.8;
-                }
-                100% {
-                    opacity: 0.4;
-                }
-            }
-            animation-name: loading;
-            animation-duration: 2s;
-            animation-iteration-count: infinite;
-
-            p {
-                opacity: 0;
-            }
-        `};
 `;
 
 type ComponentProps = {
     label: string;
     length?: number;
-    loading?: boolean;
     children: React.ReactNode;
 };
 
-function Label({ label, length, loading, children }: ComponentProps) {
+function Label({ label, length, children }: ComponentProps) {
     return (
-        <Container length={length} loading={loading}>
+        <Container length={length}>
             <label>{label}</label>
             {children}
         </Container>

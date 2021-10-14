@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { css } from "styled-components";
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { ReactComponent as Arrow } from "back_arrow.svg";
 
 import { Device } from "globalStyle";
@@ -108,7 +108,7 @@ function Article({
     className,
     children,
 }: ComponentProps) {
-    let history = useHistory();
+    const navigate = useNavigate();
 
     return (
         <Container loading={loading} className={className}>
@@ -117,7 +117,7 @@ function Article({
                     <Header>
                         <button
                             type="button"
-                            onClick={() => history.goBack()}
+                            onClick={() => navigate(-1)}
                             aria-label="Back"
                         >
                             <Arrow fill="var(--secondary)" />

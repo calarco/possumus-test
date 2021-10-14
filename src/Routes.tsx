@@ -1,8 +1,8 @@
 import { useEffect } from "react";
-import { Location } from "history";
+import { useLocation } from "react-router-dom";
 import { css } from "styled-components";
-import { SwitchTransition, TransitionGroup } from "react-transition-group";
 import transition from "styled-transition-group";
+import { SwitchTransition, TransitionGroup } from "react-transition-group";
 
 import { Device } from "globalStyle";
 import useAxios from "components/useAxios";
@@ -130,12 +130,12 @@ const Article = transition(ArticleComponent).attrs({
 `;
 
 type ComponentProps = {
-    location: Location;
     current: Data;
     setCurrent: (current: any) => void;
 };
 
-function Routes({ location, current, setCurrent }: ComponentProps) {
+function Routes({ current, setCurrent }: ComponentProps) {
+    const location = useLocation();
     const { response, loading, error } = useAxios({
         url: location.pathname,
         dontLoad:

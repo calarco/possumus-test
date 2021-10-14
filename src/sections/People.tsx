@@ -19,8 +19,6 @@ const Item = transition.div.attrs({
         exit: 200,
     },
 })`
-    transition: 0.15s ease-in;
-
     &:enter {
         opacity: 0;
         transform: scale(0.95);

@@ -1,5 +1,5 @@
 import Label from "components/Label";
-import List from "components/List";
+import Item from "components/Item";
 
 type ComponentProps = {
     data: Data;
@@ -22,39 +22,49 @@ function Film({ data, setCurrent }: ComponentProps) {
                 <p>{data.release_date}</p>
             </Label>
             {data.characters && data.characters[0] && (
-                <List
-                    label="CHARACTERS"
-                    list={data.characters}
-                    setCurrent={setCurrent}
-                />
+                <Label label="CHARACTERS" length={data.characters.length}>
+                    <ul>
+                        {data.characters.map((url: string) => (
+                            <Item key={url} url={url} setCurrent={setCurrent} />
+                        ))}
+                    </ul>
+                </Label>
             )}
             {data.planets && data.planets[0] && (
-                <List
-                    label="PLANETS"
-                    list={data.planets}
-                    setCurrent={setCurrent}
-                />
+                <Label label="PLANETS" length={data.planets.length}>
+                    <ul>
+                        {data.planets.map((url: string) => (
+                            <Item key={url} url={url} setCurrent={setCurrent} />
+                        ))}
+                    </ul>
+                </Label>
             )}
             {data.species && data.species[0] && (
-                <List
-                    label="SPECIES"
-                    list={data.species}
-                    setCurrent={setCurrent}
-                />
+                <Label label="SPECIES" length={data.species.length}>
+                    <ul>
+                        {data.species.map((url: string) => (
+                            <Item key={url} url={url} setCurrent={setCurrent} />
+                        ))}
+                    </ul>
+                </Label>
             )}
             {data.vehicles && data.vehicles[0] && (
-                <List
-                    label="VEHICLES"
-                    list={data.vehicles}
-                    setCurrent={setCurrent}
-                />
+                <Label label="VEHICLES" length={data.vehicles.length}>
+                    <ul>
+                        {data.vehicles.map((url: string) => (
+                            <Item key={url} url={url} setCurrent={setCurrent} />
+                        ))}
+                    </ul>
+                </Label>
             )}
             {data.starships && data.starships[0] && (
-                <List
-                    label="STARSHIPS"
-                    list={data.starships}
-                    setCurrent={setCurrent}
-                />
+                <Label label="STARSHIPS" length={data.starships.length}>
+                    <ul>
+                        {data.starships.map((url: string) => (
+                            <Item key={url} url={url} setCurrent={setCurrent} />
+                        ))}
+                    </ul>
+                </Label>
             )}
         </>
     );

@@ -1,5 +1,5 @@
 import Label from "components/Label";
-import List from "components/List";
+import Item from "components/Item";
 
 type ComponentProps = {
     data: Data;
@@ -46,14 +46,22 @@ function Starship({ data, setCurrent }: ComponentProps) {
                 <p>{data.starship_class}</p>
             </Label>
             {data.pilots && data.pilots[1] && (
-                <List
-                    label="PILOTS"
-                    list={data.pilots}
-                    setCurrent={setCurrent}
-                />
+                <Label label="PILOTS" length={data.pilots.length}>
+                    <ul>
+                        {data.pilots.map((url: string) => (
+                            <Item key={url} url={url} setCurrent={setCurrent} />
+                        ))}
+                    </ul>
+                </Label>
             )}
             {data.films && data.films[1] && (
-                <List label="FILMS" list={data.films} setCurrent={setCurrent} />
+                <Label label="FILMS" length={data.films.length}>
+                    <ul>
+                        {data.films.map((url: string) => (
+                            <Item key={url} url={url} setCurrent={setCurrent} />
+                        ))}
+                    </ul>
+                </Label>
             )}
         </>
     );
