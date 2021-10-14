@@ -1,5 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
+import transition from "styled-transition-group";
+import { TransitionGroup } from "react-transition-group";
 import { useNavigate } from "react-router-dom";
 import { ReactComponent as Arrow } from "back_arrow.svg";
 
@@ -9,8 +11,18 @@ type Props = {
     loading?: boolean;
 };
 
-const Container = styled.article<Props>`
-    max-height: 100%;
+const Container = transition.article.attrs({
+    unmountOnExit: true,
+    timeout: {
+        enter: 300,
+        exit: 200,
+    },
+})<Props>`
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    bottom: 1px;
+    left: 1px;
     display: grid;
     grid-template-rows: auto 1fr;
     opacity: 1;
@@ -22,6 +34,26 @@ const Container = styled.article<Props>`
             opacity: 0.4;
             transition: 0.3s ease-in;
         `};
+
+    &:enter {
+        opacity: 0;
+        transform: translateX(-1rem);
+    }
+
+    &:enter-active {
+        opacity: 1;
+        transform: initial;
+        transition: 0.3s ease-out;
+    }
+
+    &:exit {
+        opacity: 1;
+    }
+
+    &:exit-active {
+        opacity: 0;
+        transition: 0.2s ease-in;
+    }
 `;
 
 const Header = styled.div`
@@ -111,26 +143,28 @@ function Article({
     const navigate = useNavigate();
 
     return (
-        <Container loading={loading} className={className}>
-            {title ? (
-                <>
-                    <Header>
-                        <button
-                            type="button"
-                            onClick={() => navigate(-1)}
-                            aria-label="Back"
-                        >
-                            <Arrow fill="var(--secondary)" />
-                        </button>
-                        <h3>{title}</h3>
-                        {subtitle && <h4>{subtitle}</h4>}
-                    </Header>
-                    <Content>{children}</Content>
-                </>
-            ) : (
-                children
-            )}
-        </Container>
+        <TransitionGroup component={null}>
+            <Container key={title} loading={loading} className={className}>
+                {title ? (
+                    <>
+                        <Header>
+                            <button
+                                type="button"
+                                onClick={() => navigate(-1)}
+                                aria-label="Back"
+                            >
+                                <Arrow fill="var(--secondary)" />
+                            </button>
+                            <h3>{title}</h3>
+                            {subtitle && <h4>{subtitle}</h4>}
+                        </Header>
+                        <Content>{children}</Content>
+                    </>
+                ) : (
+                    children
+                )}
+            </Container>
+        </TransitionGroup>
     );
 }
 

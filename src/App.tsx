@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 import GlobalStyle, { Device } from "globalStyle";
 import People from "sections/People";
-import Routes from "Routes";
+import Articles from "sections/Articles";
 
 const Main = styled.main`
     width: 100vw;
@@ -45,7 +45,7 @@ function App() {
             <Main>
                 <Content>
                     <People setCurrent={setCurrent} />
-                    <Routes current={current} setCurrent={setCurrent} />
+                    <Articles current={current} setCurrent={setCurrent} />
                 </Content>
             </Main>
         </BrowserRouter>

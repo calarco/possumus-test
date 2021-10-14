@@ -2,8 +2,8 @@ import { createGlobalStyle } from "styled-components";
 import { normalize } from "styled-normalize";
 
 export const Device = {
-    laptop: `(min-width: 1024px)`,
-    desktop: `(min-width: 1440px)`,
+    laptop: `(min-width: 900px)`,
+    desktop: `(min-width: 1280px)`,
 };
 
 const GlobalStyle = createGlobalStyle`
